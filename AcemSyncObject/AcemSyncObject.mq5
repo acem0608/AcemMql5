@@ -1,15 +1,15 @@
 //+------------------------------------------------------------------+
-//|                                             AcemSyncChartPos.mq5 |
+//|                                               AcemSyncObject.mq5 |
 //|                                  Copyright 2023, MetaQuotes Ltd. |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
 
-#include <Acem/Sync/AcemSyncChartPos.mqh>
 #include <Acem/Common/AcemUtility.mqh>
+#include <Acem/Sync/AcemSyncObject.mqh>
 
-CAcemSyncChartPos syncChartPos;
+#define INDICATOR_SHORT_NAME "AcemSyncObject"
 
-#define INDICATOR_SHORT_NAME "AcemSyncChartPos"
+CAcemSyncObject syncObj(INDICATOR_SHORT_NAME);
 
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
@@ -19,22 +19,21 @@ int OnInit()
 //--- indicator buffers mapping
     IndicatorSetString(INDICATOR_SHORTNAME, INDICATOR_SHORT_NAME);
     long chartId = ChartID();
-    if (isSameIndicator(chartId, INDICATOR_SHORT_NAME)) {
-        return(INIT_FAILED);
+    if (isSameIndicator(chartId, INDICATOR_SHORT_NAME))
+    {
+        return (INIT_FAILED);
     }
+
+    //--- indicator buffers mapping
     ChartSetInteger(chartId, CHART_EVENT_MOUSE_MOVE, true);
     ChartSetInteger(chartId, CHART_EVENT_OBJECT_CREATE, true);
     ChartSetInteger(chartId, CHART_EVENT_OBJECT_DELETE, true);
-   syncChartPos.init();
+    //---
+    
+    syncObj.init();
 //---
    return(INIT_SUCCEEDED);
   }
-  
-void OnDeinit(const int  reason)
-{
-    syncChartPos.deinit(reason);
-}
-
 //+------------------------------------------------------------------+
 //| Custom indicator iteration function                              |
 //+------------------------------------------------------------------+
@@ -54,6 +53,12 @@ int OnCalculate(const int rates_total,
 //--- return value of prev_calculated for next call
    return(rates_total);
   }
+
+void OnDeinit(const int reason)
+{
+    syncObj.deinit(reason);
+}
+
 //+------------------------------------------------------------------+
 //| ChartEvent function                                              |
 //+------------------------------------------------------------------+
@@ -63,6 +68,6 @@ void OnChartEvent(const int id,
                   const string &sparam)
   {
 //---
-   syncChartPos.OnChartEvent(id, lparam, dparam, sparam);
+     syncObj.OnChartEvent(id, lparam, dparam, sparam);
   }
 //+------------------------------------------------------------------+
