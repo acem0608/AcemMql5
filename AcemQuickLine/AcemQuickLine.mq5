@@ -44,8 +44,8 @@ void OnChartEvent(const int id,
                   const long &lparam,
                   const double &dparam,
                   const string &sparam)
-  {
+{
 //---
     quickEdit.OnChartEvent(id, lparam, dparam, sparam);
-  }
+}
 //+------------------------------------------------------------------+
