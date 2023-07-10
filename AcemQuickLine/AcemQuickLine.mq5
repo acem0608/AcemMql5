@@ -14,6 +14,9 @@ CAcemQuickEditManagement quickEdit;
 int OnInit()
   {
 //--- indicator buffers mapping
+    ChartSetInteger(ChartID(), CHART_EVENT_MOUSE_MOVE, true);
+    ChartSetInteger(ChartID(), CHART_EVENT_OBJECT_CREATE, true);
+    ChartSetInteger(ChartID(), CHART_EVENT_OBJECT_DELETE, true);
    
 //---
    return(INIT_SUCCEEDED);
