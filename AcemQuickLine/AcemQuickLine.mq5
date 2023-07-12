@@ -36,7 +36,7 @@ int OnCalculate(const int rates_total,
                 const int &spread[])
   {
 //---
-    ChartSetInteger(ChartID(), CHART_EVENT_MOUSE_MOVE, true);   
+
 //--- return value of prev_calculated for next call
    return(rates_total);
   }
