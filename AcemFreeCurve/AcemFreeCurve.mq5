@@ -7,12 +7,12 @@
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+
 
-#include <Acem/Draw/AcemFreeCurve.mqh>
 #include <Acem/Common/AcemUtility.mqh>
+#include <Acem/Draw/AcemDrawFreeCurve.mqh>
 
-#define INDICATOR_SHORT_NAME "AcemSyncChartPos"
+#define INDICATOR_SHORT_NAME "AcemFreeCurve"
 
-CAcemFreeCurve freeCurve;
+CAcemDrawFreeCurve drawFreeCureve;
 
 int OnInit()
 {
@@ -24,11 +24,18 @@ int OnInit()
         return (INIT_FAILED);
     }
     ChartSetInteger(chartId, CHART_EVENT_MOUSE_MOVE, true);
+    ChartSetInteger(chartId, CHART_EVENT_OBJECT_CREATE, true);
+    ChartSetInteger(chartId, CHART_EVENT_OBJECT_DELETE, true);
 
-    freeCurve.init();
+    drawFreeCureve.init();
 
     //---
     return (INIT_SUCCEEDED);
+}
+
+void OnDeinit(const int reason)
+{
+    drawFreeCureve.deinit(reason);
 }
 //+------------------------------------------------------------------+
 //| Custom indicator iteration function                              |
@@ -58,6 +65,6 @@ void OnChartEvent(const int id,
                   const string &sparam)
 {
     //---
-    freeCurve.OnChartEvent(id, lparam, dparam, sparam);
+    drawFreeCureve.OnChartEvent(id, lparam, dparam, sparam);
 }
 //+------------------------------------------------------------------+
